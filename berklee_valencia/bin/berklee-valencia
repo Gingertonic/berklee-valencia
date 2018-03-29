@@ -1,5 +1,5 @@
 #! /usr/bin/env ruby
 
-require './lib/berklee_valencia'
+require_relative '../lib/berklee_valencia.rb'
 
-BerkleeValencia::CLI.new.call
+CLI.new.call
