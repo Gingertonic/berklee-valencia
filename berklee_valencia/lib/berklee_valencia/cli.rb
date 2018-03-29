@@ -1,4 +1,4 @@
-class CLI
+class BerkleeValencia::CLI
   def call
     puts "Hola world"
   end
