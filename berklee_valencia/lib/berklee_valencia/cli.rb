@@ -21,9 +21,14 @@ class BerkleeValencia::CLI
   def list_news_or_programs
     input = gets.strip.downcase
     puts ""
+    puts "Which kind of article are you interested in?"
+    puts "Please be patient whilst we get up to date with all our news!"
+    puts ""
+    puts "..."
+    puts ""
     if input == "1"
-      BerkleeValencia::BV.list_news
-      show_article
+      BerkleeValencia::BV.list_news_categories
+      list_news_articles
     elsif input == "2"
       BerkleeValencia::BV.list_programs
       show_program
@@ -31,6 +36,15 @@ class BerkleeValencia::CLI
       goodbye
     else
       say_what
+    end
+  end
+
+  def list_news_articles
+    input = gets.strip.downcase
+    puts "Enter the number of the article you'd like to read in full"
+    if input.to_i > 0
+      BerkleeValencia::BV.list_news_articles(input)
+      show_article
     end
   end
 
@@ -70,6 +84,7 @@ class BerkleeValencia::CLI
     puts "2. See programs"
     puts ""
     puts "If you're all set, you can just say 'hasta luego' and we will see you next time with the latest news from Berklee Valencia!"
+    puts ""
     list_news_or_programs
   end
 

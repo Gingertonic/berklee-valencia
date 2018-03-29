@@ -1,29 +1,41 @@
 class BerkleeValencia::BV
-  def self.list_news
-    # articles = BerkleeValencia::SCRAPER.scrape_news
-    puts "Enter the number of the article you'd like to read more about."
-    puts "Alumni Profiles"
-      puts "  1"
-      puts "  2"
-      puts "  3"
-      puts "  ..."
-    puts "Student Profiles"
-      puts "  1"
-      puts "  2"
-      puts "  3"
-      puts "  ..."
-    puts "News"
-      puts "  1"
-      puts "  2"
-      puts "  3"
-      puts "  ..."
-      puts ""
+  @@categories
+  @@articles
+  @@matches
+
+#First lines of this can refactor to initialize method
+#Convert methods and variables to instance
+#Call BV.new early in CLI
+  def self.list_news_categories
+    @@articles = BerkleeValencia::SCRAPER.scrape_news
+    @@categories = []
+
+    @@articles.each do |article|
+      @@categories.push(article[:category])
+    end
+
+    @@categories.uniq!
+
+
+    @@categories.each.with_index(1) do |category, i|
+      puts "#{i}. #{category}"
+    end
   end
+
+  def self.list_news_articles(input)
+    @@matches = @@articles.find_all {|article| article[:category] == @@categories[input.to_i-1]}
+    @@matches.each.with_index(1) do |article, i|
+        puts "#{i}: #{article[:title]} // Posted on #{article[:date]}"
+        puts "      #{article[:excerpt]}"
+        puts ""
+      end
+  end
+
 
   def self.list_programs
     # programs = BerkleeValencia::SCRAPER.scrape_programs
     puts "Enter the number of the program you'd like to read more about."
-    puts "Graduate Programs" 
+    puts "Graduate Programs"
       puts "  1"
       puts "  2"
       puts "  3"
