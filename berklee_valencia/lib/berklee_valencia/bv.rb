@@ -1,6 +1,6 @@
 class BerkleeValencia::BV
   def self.list_news
-    # BerkleeValencia::SCRAPER.scrape_news
+    # articles = BerkleeValencia::SCRAPER.scrape_news
     puts "Enter the number of the article you'd like to read more about."
     puts "Alumni Profiles"
       puts "  1"
@@ -21,9 +21,9 @@ class BerkleeValencia::BV
   end
 
   def self.list_programs
-    # BerkleeValencia::SCRAPER.scrape_programs
+    # programs = BerkleeValencia::SCRAPER.scrape_programs
     puts "Enter the number of the program you'd like to read more about."
-    puts "Graduate Programs"
+    puts "Graduate Programs" 
       puts "  1"
       puts "  2"
       puts "  3"
