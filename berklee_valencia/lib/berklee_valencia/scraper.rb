@@ -17,8 +17,30 @@ class BerkleeValencia::SCRAPER
     articles
   end
 
-  # def self.scrape_programs
-  #   academics = Nokogiri::HTML(open(bv_programs))
-  # end
+  def self.scrape_graduate_programs
+    academics = Nokogiri::HTML(open(@bv_programs))
+    graduate_programs = []
+    academics.css("div.col-3-5").first.css("ul a").each do |program|
+      graduate_programs << {
+          name: program.text,
+          detail: program.css("span").text,
+          url: program.attribute("href").value
+      }
+    end
+    graduate_programs
+  end
+
+  def self.scrape_other_programs
+    academics = Nokogiri::HTML(open(@bv_programs))
+    other_programs = []
+    academics.css("div.col-3-5").last.css("ul a").each do |program|
+      other_programs << {
+          name: program.text,
+          detail: program.css("span").text,
+          url: program.attribute("href").value
+      }
+    end
+    other_programs
+  end
 
 end

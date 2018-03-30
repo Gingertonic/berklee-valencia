@@ -1,1 +1,5 @@
 Any way to neaten berklee_valencia.rb with less require_relatives?
+
+SCRAPER each.with_index not working
+
+How to optomize so doesn't have to reload each time?

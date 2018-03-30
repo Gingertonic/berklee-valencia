@@ -16,7 +16,9 @@ class BerkleeValencia::BV
 
     @@categories.uniq!
 
-
+    puts "--------------------------------------------"
+    puts "Which kind of article are you interested in?"
+    puts "--------------------------------------------"
     @@categories.each.with_index(1) do |category, i|
       puts "#{i}. #{category}"
     end
@@ -34,18 +36,29 @@ class BerkleeValencia::BV
 
   def self.list_programs
     # programs = BerkleeValencia::SCRAPER.scrape_programs
+    grad_programs = BerkleeValencia::SCRAPER.scrape_graduate_programs
+    other_programs = BerkleeValencia::SCRAPER.scrape_other_programs
+    puts "--------------------------------------------------------------"
     puts "Enter the number of the program you'd like to read more about."
+    puts "--------------------------------------------------------------"
     puts "Graduate Programs"
-      puts "  1"
-      puts "  2"
-      puts "  3"
-      puts "  ..."
+    grad_programs.each.with_index(1) do |gradprogram, i|
+      if gradprogram[:detail] != ""
+        puts "#{i}: #{gradprogram[:name]} (#{gradprogram[:detail]})"
+      else
+        puts "#{i}: #{gradprogram[:name]}"
+      end
+    end
+
+    puts ""
     puts "Other Programs"
-      puts "  1"
-      puts "  2"
-      puts "  3"
-      puts "  ..."
-      puts ""
+    other_programs.each.with_index(grad_programs.length + 1) do |otherprogram, i|
+      if otherprogram[:detail] != ""
+        puts "#{i}: #{otherprogram[:name]} (#{otherprogram[:detail]})"
+      else
+        puts "#{i}: #{otherprogram[:name]}"
+      end
+    end
   end
 
   def self.print_article(input)
