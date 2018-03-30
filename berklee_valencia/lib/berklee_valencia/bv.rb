@@ -91,25 +91,34 @@ class BerkleeValencia::BV
     puts "#{article_extended[:author]}#{gap}#{article[:date]}"      #{article[:date]}puts "By author       date"
     puts "#{border}"
     puts "#{border}"
+    # binding.pry
     article_extended[:body].each do |paragraph|
       if paragraph.match(/-{3} /)
-        puts " _________________________________________________________________________________________"
-        puts "|----- Press any key to scroll to the next section or type 'menu' to see all options -----|"
-        puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+        puts "___________________________________________________"
+        puts " ||  Press enter to scroll to the next section  ||"
+        puts " ||      or type 'menu' to see all options      ||"
+        puts "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
         input = gets.strip
         if input == "menu"
           return "abort mission!"
         end
       end
     puts "#{paragraph}"
+    # binding.pry
+    if paragraph.match(/[:]$/)
+        puts "    Vist #{article_extended[:related_links].shift}"
+      if paragraph.match(/below/)
+        puts "    Vist #{article_extended[:related_links].shift}"
+      end
+    end
     puts ""
     end
       #puts "body of article"
     # if css("strong") then puts space between and --- around
     puts ""
-    article_extended[:related_links].each.with_index do |link|
-      puts "#{link}"
-    end
+    puts "____________________________________________________"
+    puts " ||                END OF ARTICLE                ||"
+    puts "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
     # puts "related link 1 name: http://blah.com"
     # puts "related link 1 name: http://blah.com"
     # puts "related link 1 name: http://blah.com"

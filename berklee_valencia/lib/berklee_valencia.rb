@@ -2,6 +2,7 @@ require_relative "berklee_valencia/version"
 
 require 'nokogiri'
 require 'open-uri'
+require 'curses'
 #
 # module BerkleeValencia
 # end

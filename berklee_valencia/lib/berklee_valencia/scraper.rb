@@ -54,19 +54,20 @@ class BerkleeValencia::SCRAPER
       body: []
     }
     article.css("div#tab_intro p").each do |para|
-      # binding.pry
       if para.css("iframe").length == 0 && para.css("em").text.length < 30 && para.css("strong").text == ""
         extended_info[:body] << para.text
       elsif para.css("strong").text != ""
         extended_info[:body] << "--- #{para.text} ---"
       elsif para.css("em").text != ""
-        header = "#{para.text.gsub(":", "")} at the link below"
-        border = ""
-        borderlength = header.length
-        borderlength.times {border << "-"}
-        extended_info[:body] << border
+        header = "#{para.text}"
+        # border_upper = "            - - - - - Video - - - - -"
+        # border_lower = "            - - - - - - - - - - - - -"
+
+        extended_info[:body] << " - - - - - - - - - - - Media - - - - - - - - - - -"
+        # extended_info[:body] << "            - - - - - Video - - - - -"
         extended_info[:body] << header
-        extended_info[:body] << border
+        # extended_info[:body] << "            - - - - - - - - - - - - -"
+        extended_info[:body] << " - - - - - - - - - - - - - - - - - - - - - - - - -"
       elsif para.css("iframe").length > 0
        extended_info[:related_links] << para.css("iframe").attribute("src").value
         # video = "#{para.css("iframe head")}"
