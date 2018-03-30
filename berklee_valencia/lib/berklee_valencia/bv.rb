@@ -126,44 +126,46 @@ class BerkleeValencia::BV
   end
 
   def self.print_program(input)
+    programs = @@grad_programs
+    @@other_programs.each { |program| programs << program }
+    program = programs.find { |program| program[:i] == input.to_i }
+    url = program[:url]
+    program_extended = BerkleeValencia::SCRAPER.scrape_program(url)
     # BerkleeValencia::SCRAPER.scrape_program(input)
     puts ""
-    puts "Program title"
+    puts "#{program[:name]}"
+    if program[:detail] != ""
+      puts "  (#{program[:detail]})"
+    end
     # border = ""
     # borderlength = program[:title].length
     # borderlength.times {border << "-"}
     puts "------------" # puts "#{border}"
     puts "Introduction"
     puts "------------"
-    puts "  body of Intro"
+    puts "#{program_extended[:introduction]}"
     puts ""
     puts "------------------"
     puts "Program Highlights"
     puts "------------------"
-    puts "highlight 1 name"
-    puts "  highlight 1 body"
-    puts "highlight 2 name"
-    puts "  highlight 2 body"
-    puts "highlight 3 name"
-    puts "  highlight 3 body"
+    program_extended[:highlights].each do |highlight|
+      # binding.pry
+      puts "#{highlight[:hl_title]}"
+      puts "    #{highlight[:hl_body]}"
+      puts ""
+    end
+    # binding.pry
+    if program_extended[:ideals_heading]
+      if program_extended[:ideals_heading].downcase.match(/ideal/)
+        puts "#{program_extended[:ideals_heading]}"
+      end
+    end
+    # binding.pry
+    program_extended[:ideals].each do |li|
+      puts ">  #{li}"
+    end
     puts ""
-      puts "----------------------"
-      puts "Who We Are Looking For"
-      puts "----------------------"
-      puts "who we are looking for body"
-      puts ""
-      puts "Ideal candidates heading one:"
-      puts "1. ideal one"
-      puts "2. ideal two"
-      puts "3. ideal three"
-      puts "Ideal candidates heading two:"
-      puts "1. ideal one"
-      puts "2. ideal two"
-      puts "3. ideal three"
-      puts ""
-      puts "related link 1 name: http://blah.com"
-      puts "related link 1 name: http://blah.com"
-      puts "related link 1 name: http://blah.com"
+    puts "For full program information, vist #{program[:url]}"
       2.times {puts ""}
     end
 end

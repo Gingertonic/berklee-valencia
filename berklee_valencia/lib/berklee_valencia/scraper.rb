@@ -77,7 +77,36 @@ class BerkleeValencia::SCRAPER
     extended_info
   end
 
-  def self.scrape_program(input)
+  def self.scrape_program(url)
+    program = Nokogiri::HTML(open(url))
+    extended_info = {
+      introduction: program.css("div#tab_intro p").first.text,
+      highlights: [], #array of key-value pairs hl_title: hl_body
+      ideals: [] #[ideal1, ideal2, ideal3]
+    }
+    # binding.pry
+    if program.css("div#tab_intro p strong").length > 0
+      extended_info[:ideals_heading] = program.css("div#tab_intro p strong").first.text
+    end
+
+    program.css("div#tab_intro div.block_content").each do |highlight|
+      hl_title = highlight.css("p.block_content_item_title").text
+      hl_body = highlight.css("div.bk_txt").text
+      # extended_info[:highlights].send("\"#{hl_title.to_sym}\"=>", hl_body)
+      extended_info[:highlights] << {
+        hl_title: hl_title,
+        hl_body: hl_body
+      }
+      # "name:"
+      # send("#{method_name}=", value)
+    end
+
+    if program.css("div#tab_intro ul").length > 0
+      program.css("div#tab_intro ul").first.css("li").each do |li|
+        extended_info[:ideals]<< li.text
+      end
+    end
+    extended_info
   end
 
 end
