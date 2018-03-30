@@ -43,4 +43,10 @@ class BerkleeValencia::SCRAPER
     other_programs
   end
 
+  def self.scrape_article(i)
+  end
+
+  def self.scrape_program(input)
+  end
+
 end

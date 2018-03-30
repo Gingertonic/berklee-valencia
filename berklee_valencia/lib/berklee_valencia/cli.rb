@@ -20,21 +20,23 @@ class BerkleeValencia::CLI
 
   def list_news_or_programs
     input = gets.strip.downcase
-    puts ""
-    puts "Please be patient whilst we get up to date with all our news!"
-    puts ""
-    puts "..."
-    puts ""
-    if input == "1"
-      BerkleeValencia::BV.list_news_categories
-      list_news_articles
-    elsif input == "2"
-      BerkleeValencia::BV.list_programs
-      show_program
-    elsif input.match(/hasta luego|exit|bye|ciao/)
+    if input.match(/hasta luego|exit|bye|ciao/)
       goodbye
     else
-      say_what
+      puts ""
+      puts "Please be patient whilst we get up to date with all our news!"
+      puts ""
+      puts "..."
+      puts ""
+      if input == "1"
+        BerkleeValencia::BV.list_news_categories
+        list_news_articles
+      elsif input == "2"
+        BerkleeValencia::BV.list_programs
+        show_program
+      else
+        say_what
+      end
     end
   end
 
