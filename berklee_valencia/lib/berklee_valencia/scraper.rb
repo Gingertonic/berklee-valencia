@@ -78,7 +78,7 @@ class BerkleeValencia::SCRAPER
   end
 
   def self.scrape_program(url)
-    program = Nokogiri::HTML(open(url))
+    program = Nokogiri::HTML(open(url, :allow_redirections => :all))
     extended_info = {
       introduction: program.css("div#tab_intro p").first.text,
       highlights: [], #array of key-value pairs hl_title: hl_body

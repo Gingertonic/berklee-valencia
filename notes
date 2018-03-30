@@ -73,6 +73,8 @@ goodbye/exit
 
 
 * implement scrape_programs method
+*
+
 
 >> Fix spacing in CLI
 
@@ -80,8 +82,27 @@ goodbye/exit
 >> add ascii BV logo and hand wave!
 
 
+youtube video links:
+<title> THIS FOR TITLE! </title>
+<link rel="canonical" href="THIS LINK!">
+  <head>
+    <html>
+      #doctype
+        <!DOCTYPE html>
+          <iframe src="OR THIS LINK!">
+            <p>
 
 
+
+Program print issues:
+6: no ul header
+7: no intro text
+8: no intro text
+9: no intro text
+
+Article print issues:
+news / 1: 'Click here' texts need to go or have link manually extracted
+news / 5: Media section with no link Johnny O'Hagan
 
 
 
