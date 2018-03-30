@@ -53,25 +53,36 @@ class BerkleeValencia::SCRAPER
       related_links: [],
       body: []
     }
+
+    # if program.css("div#tab_intro ol").length > 0
+    #   program.css("div#tab_intro ol").css("li").each do |li|
+    #     extended_info[:list] << li.text
+    #   end
+    # end
+
     article.css("div#tab_intro p").each do |para|
-      if para.css("iframe").length == 0 && para.css("em").text.length < 30 && para.css("strong").text == ""
+      if para.css("iframe").length == 0 && para.css("em").text.length < 30 && para.css("strong").text == "" && !para.text.match(/•/)
         extended_info[:body] << para.text
       elsif para.css("strong").text != ""
         extended_info[:body] << "--- #{para.text} ---"
       elsif para.css("em").text != ""
         header = "#{para.text}"
-        # border_upper = "            - - - - - Video - - - - -"
-        # border_lower = "            - - - - - - - - - - - - -"
+
+    # article.css("div#tab_intro").each do |element|
+    #   if element.css("p").length > 0 && element.css("p iframe").length == 0 && element.css("p em").text.length < 30 && element.css("p strong").text == ""
+    #     extended_info[:body] << element.css("p").text
+    #   elsif element.css("ol").length > 0
+    #     extended_info[:body] << element.css("ol li").text
+    #   elsif element.css("strong").text != ""
+    #     extended_info[:body] << "--- #{element.text} ---"
+    #   elsif element.css("p em").text != ""
+    #     header = "#{element.text}"
 
         extended_info[:body] << " - - - - - - - - - - - Media - - - - - - - - - - -"
-        # extended_info[:body] << "            - - - - - Video - - - - -"
         extended_info[:body] << header
-        # extended_info[:body] << "            - - - - - - - - - - - - -"
         extended_info[:body] << " - - - - - - - - - - - - - - - - - - - - - - - - -"
       elsif para.css("iframe").length > 0
        extended_info[:related_links] << para.css("iframe").attribute("src").value
-        # video = "#{para.css("iframe head")}"
-        # extended_info[:related_links] << "#{video.css("title").text}: #{video.css("link").attribute("href").value}"
       end
     end
     extended_info
@@ -80,13 +91,20 @@ class BerkleeValencia::SCRAPER
   def self.scrape_program(url)
     program = Nokogiri::HTML(open(url, :allow_redirections => :all))
     extended_info = {
-      introduction: program.css("div#tab_intro p").first.text,
+      # introduction: program.css("div#tab_intro p").first.text,
       highlights: [], #array of key-value pairs hl_title: hl_body
-      ideals: [] #[ideal1, ideal2, ideal3]
+      list: [] #[ideal1, ideal2, ideal3]
     }
     # binding.pry
-    if program.css("div#tab_intro p strong").length > 0
-      extended_info[:ideals_heading] = program.css("div#tab_intro p strong").first.text
+
+
+    if program.css("div#tab_intro p").first.text.length > 0
+      extended_info[:introduction] = program.css("div#tab_intro p").first.text
+    elsif program.css("div#tab_intro h4").length > 0
+      extended_info[:introduction] = program.css("div#tab_intro h4").first.text
+    else
+      intro = program.css("div#tab_intro p").detect {|p| p.text.length > 150}
+      extended_info[:introduction] = intro.text
     end
 
     program.css("div#tab_intro div.block_content").each do |highlight|
@@ -97,15 +115,21 @@ class BerkleeValencia::SCRAPER
         hl_title: hl_title,
         hl_body: hl_body
       }
-      # "name:"
-      # send("#{method_name}=", value)
     end
 
-    if program.css("div#tab_intro ul").length > 0
+    if program.css("div#tab_intro p strong").length > 0
+      # binding.pry
+      extended_info[:ideals_heading] = program.css("div#tab_intro p strong").first.text
+    end
+
+    if program.css("div#tab_intro ul").first.css("li strong").length > 0
       program.css("div#tab_intro ul").first.css("li").each do |li|
-        extended_info[:ideals]<< li.text
+        extended_info[:list] << li.text
       end
     end
+
+
+
     extended_info
   end
 

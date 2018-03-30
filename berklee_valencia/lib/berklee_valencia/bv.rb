@@ -92,6 +92,7 @@ class BerkleeValencia::BV
     puts "#{border}"
     puts "#{border}"
     # binding.pry
+
     article_extended[:body].each do |paragraph|
       if paragraph.match(/-{3} /)
         puts "___________________________________________________"
@@ -103,15 +104,19 @@ class BerkleeValencia::BV
           return "abort mission!"
         end
       end
-    puts "#{paragraph}"
-    # binding.pry
-    if paragraph.match(/[:]$/)
-        puts "    Vist #{article_extended[:related_links].shift}"
-      if paragraph.match(/below/)
-        puts "    Vist #{article_extended[:related_links].shift}"
+
+      if !paragraph.downcase.match(/click here/)
+        if paragraph.match(/below/)
+          puts paragraph
+          puts "    Vist #{article_extended[:related_links].shift}"
+        elsif paragraph ==  " - - - - - - - - - - - - - - - - - - - - - - - - -"
+            puts "    Vist #{article_extended[:related_links].shift}"
+            puts paragraph
+        else
+          puts paragraph
+          puts ""
+        end
       end
-    end
-    puts ""
     end
       #puts "body of article"
     # if css("strong") then puts space between and --- around
@@ -160,12 +165,13 @@ class BerkleeValencia::BV
         puts "#{program_extended[:ideals_heading]}"
       end
     end
-    # binding.pry
-    program_extended[:ideals].each do |li|
+
+    program_extended[:list].each do |li|
       puts ">  #{li}"
     end
     puts ""
     puts "For full program information, vist #{program[:url]}"
       2.times {puts ""}
+
     end
 end
