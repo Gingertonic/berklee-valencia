@@ -57,8 +57,11 @@ class BerkleeValencia::CLI
     puts ""
     input = gets.strip.downcase
     if input.to_i > 0
-      BerkleeValencia::BV.print_article(input)
-      what_next
+      if BerkleeValencia::BV.print_article(input) == "abort mission!"
+        menu
+      else
+        what_next
+      end
     elsif input.match(/hasta luego|exit|bye|ciao/)
       goodbye
     else

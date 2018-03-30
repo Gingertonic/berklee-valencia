@@ -70,23 +70,45 @@ class BerkleeValencia::BV
     article = @@articles.find { |article| article[:i] == input.to_i }
     url = article[:url]
     article_extended = BerkleeValencia::SCRAPER.scrape_article(url)
+    border = ""
+    if article[:title].length < (article_extended[:author].length + article[:date].length)
+      borderlength = article_extended[:author].length + article[:date].length + 5
+      borderlength.times {border << "-"}
+    else
+      borderlength = article[:title].length
+      borderlength.times {border << "-"}
+    end
     puts ""
+    puts "#{border}"
+    puts "#{border}"
     puts "#{article[:title]}" #puts "Article title" #
-    puts "#{article_extended[:author]}   #{article[:date]}"      #{article[:date]}puts "By author       date"
-    # border = ""
-    # borderlength = article[:title].length
-    # borderlength.times {border << "-"}
-    puts "--------------------" # puts "#{border}"
+    gap = ""
+    if border.length > article[:title].length
+      5.times {gap << " "}
+    else
+      (article[:title].length - article_extended[:author].length - article[:date].length).times {gap << " "}
+    end
+    puts "#{article_extended[:author]}#{gap}#{article[:date]}"      #{article[:date]}puts "By author       date"
+    puts "#{border}"
+    puts "#{border}"
     article_extended[:body].each do |paragraph|
-      puts "#{paragraph}"
-      puts ""
+      if paragraph.match(/-{3} /)
+        puts " _________________________________________________________________________________________"
+        puts "|----- Press any key to scroll to the next section or type 'menu' to see all options -----|"
+        puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+        input = gets.strip
+        if input == "menu"
+          return "abort mission!"
+        end
+      end
+    puts "#{paragraph}"
+    puts ""
     end
       #puts "body of article"
     # if css("strong") then puts space between and --- around
     puts ""
     article_extended[:related_links].each.with_index do |link|
       puts "#{link}"
-      puts "Link here"
     end
     # puts "related link 1 name: http://blah.com"
     # puts "related link 1 name: http://blah.com"
