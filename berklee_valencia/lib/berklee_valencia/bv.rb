@@ -32,6 +32,7 @@ class BerkleeValencia::BV
         puts "#{i}: #{article[:title]} // Posted on #{article[:date]}"
         puts "      #{article[:excerpt]}"
         puts ""
+        article[:i] = i
       end
   end
 
@@ -50,6 +51,7 @@ class BerkleeValencia::BV
       else
         puts "#{i}: #{gradprogram[:name]}"
       end
+      gradprogram[:i] = i
     end
 
     puts ""
@@ -60,23 +62,35 @@ class BerkleeValencia::BV
       else
         puts "#{i}: #{otherprogram[:name]}"
       end
+      otherprogram[:i] = i
     end
   end
 
   def self.print_article(input)
-    # BerkleeValencia::SCRAPER.scrape_article(input)
+    article = @@articles.find { |article| article[:i] == input.to_i }
+    url = article[:url]
+    article_extended = BerkleeValencia::SCRAPER.scrape_article(url)
     puts ""
-    puts "Article title" # puts "#{article[:title]}"
-    puts "By author       date" # puts "#{article[:author]}"      #{article[:date]}
+    puts "#{article[:title]}" #puts "Article title" #
+    puts "#{article_extended[:author]}   #{article[:date]}"      #{article[:date]}puts "By author       date"
     # border = ""
     # borderlength = article[:title].length
     # borderlength.times {border << "-"}
     puts "--------------------" # puts "#{border}"
-    puts "body of article"
+    article_extended[:body].each do |paragraph|
+      puts "#{paragraph}"
+      puts ""
+    end
+      #puts "body of article"
+    # if css("strong") then puts space between and --- around
     puts ""
-    puts "related link 1 name: http://blah.com"
-    puts "related link 1 name: http://blah.com"
-    puts "related link 1 name: http://blah.com"
+    article_extended[:related_links].each.with_index do |link|
+      puts "#{link}"
+      puts "Link here"
+    end
+    # puts "related link 1 name: http://blah.com"
+    # puts "related link 1 name: http://blah.com"
+    # puts "related link 1 name: http://blah.com"
     2.times {puts ""}
   end
 

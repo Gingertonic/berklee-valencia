@@ -1,3 +1,4 @@
+require 'pry'
 class BerkleeValencia::SCRAPER
 @bv_news = "https://valencia.berklee.edu/news/"
 @bv_programs = "https://valencia.berklee.edu/academic-programs/"
@@ -43,7 +44,26 @@ class BerkleeValencia::SCRAPER
     other_programs
   end
 
-  def self.scrape_article(i)
+#CURRENTLY WORKING ON
+  def self.scrape_article(url)
+    # binding.pry
+    article = Nokogiri::HTML(open(url))
+    extended_info = {
+      author: article.css("span.author").text,
+      related_links: [],
+      body: []
+    }
+    article.css("div#tab_intro p").each do |para|
+      binding.pry
+      if para.css("em").text == "" && para.css("iframe").length == 0
+        extended_info[:body] << para.text
+      elsif para.css("iframe").length > 0
+       extended_info[:related_links] << "Video title: Video link"
+        # video = "#{para.css("iframe head")}"
+        # extended_info[:related_links] << "#{video.css("title").text}: #{video.css("link").attribute("href").value}"
+      end
+    end
+    extended_info
   end
 
   def self.scrape_program(input)
