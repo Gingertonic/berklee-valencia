@@ -2,103 +2,28 @@ CLI
 
 gem for user to read latest Berklee Valencia news and about programs offered.
 
--------
-Outline
--------
-
-Hello! Berklee Valencia is Berklee College of Music's graduate campus located in Valencia, Spain.
-Filled with the musicians, business moguls and technologists of today and tomorrow, there is a wealth of things to discover here.
-
-Would you like to see the latest news or are you interested in seeing what programs are on offer?
-If you're all set, you can just say goodbye and we will see you next time with the latest news from Berklee Valencia!
-
-1. Meet the People and read the News [https://valencia.berklee.edu/news/]
-2. See the available Programs [https://valencia.berklee.edu/academic-programs/]
-goodbye/exit
-
---user inputs--
-
-1 =>
-  Alumni Profiles
-    1
-    2
-    3
-    ...
-  Student Profiles
-    1
-    2
-    3
-    ...
-  News
-    1
-    2
-    3
-    ...
-
-    1=> More info/full story on option 1
-
-    "What would you like to read about next?"
-
-    --> l10
-
-------
-  OR
-------
-
-1 =>
-  Graduate Programs
-    1
-    2
-    3
-    ...
-  Other Programs
-    1
-    2
-    3
-    ...
-
-    1=> More info/full story on option 1
-
-    --> l10
-
-------
-  OR
-------
-
-    "Hasta luego!""
 
     --------------
-      NOTES DAY 2
+      NOTES DAY 3
     --------------
-
-
-* implement scrape_programs method
-*
-
-
->> Fix spacing in CLI
-
->> add spacers and borders in CLI
->> add ascii BV logo and hand wave!
-
-
-youtube video links:
-<title> THIS FOR TITLE! </title>
-<link rel="canonical" href="THIS LINK!">
-  <head>
-    <html>
-      #doctype
-        <!DOCTYPE html>
-          <iframe src="OR THIS LINK!">
-            <p>
+* add bv ascii to top and bottom
+* push messy to develop
 
 
 
-Program print issues:
 
-Article print issues:
+X should BV be a module with classes for news article and program?
+X refactor scraper (DISCARDED SCRAPE LISTS FEATURE)
+X add Printer class
+X add Formatter class
+* refactor BV to instance methods and variables??
+* push messy refactored to develop
 
-news / 5: Media section with no link Johnny O'Hagan
+* tidy/format cli
+* tidy and push to master
+
+* film walkthrough
+* blogpost
 
 
 

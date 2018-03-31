@@ -1,4 +1,4 @@
-class BerkleeValencia::CLI
+class BV::CLI
   def call
     puts ""
     puts "Buenos Dias! Berklee Valencia is Berklee College of Music's graduate campus located in Valencia, Spain."
@@ -29,10 +29,10 @@ class BerkleeValencia::CLI
       puts "..."
       puts ""
       if input == "1"
-        BerkleeValencia::BV.list_news_categories
+        BV::NEWS_ARTICLE.list_news_categories
         list_news_articles
       elsif input == "2"
-        BerkleeValencia::BV.list_programs
+        BV::PROGRAM.list_programs
         show_program
       else
         say_what
@@ -48,7 +48,7 @@ class BerkleeValencia::CLI
     puts "Enter the number of the article you'd like to read in full"
     puts "----------------------------------------------------------"
     if input.to_i > 0
-      BerkleeValencia::BV.list_news_articles(input)
+      BV::NEWS_ARTICLE.list_news_articles(input)
       show_article
     end
   end
@@ -57,7 +57,7 @@ class BerkleeValencia::CLI
     puts ""
     input = gets.strip.downcase
     if input.to_i > 0
-      if BerkleeValencia::BV.print_article(input) == "abort mission!"
+      if BV::NEWS_ARTICLE.print_article(input) == "abort mission!"
         menu
       else
         what_next
@@ -73,7 +73,7 @@ class BerkleeValencia::CLI
     puts ""
     input = gets.strip.downcase
     if input.to_i > 0
-      BerkleeValencia::BV.print_program(input)
+      BV::PROGRAM.print_program(input)
       what_next
     elsif input.match(/hasta luego|exit|bye|ciao/)
       goodbye

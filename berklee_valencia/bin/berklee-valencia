@@ -2,4 +2,4 @@
 #
 require './lib/berklee_valencia'
 #
-BerkleeValencia::CLI.new.call
+BV::CLI.new.call
