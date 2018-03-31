@@ -1,4 +1,4 @@
-class BV::CLI
+class BerkleeValencia::CLI
   def call
     puts ""
     puts "||"
@@ -61,7 +61,7 @@ class BV::CLI
       puts "Enter the number of the article you'd like to read in full"
       puts "           or type 'menu' to see all options"
       puts "----------------------------------------------------------"
-      BV::NEWS_ARTICLE.list_news_articles(input)
+      BerkleeValencia::NEWS_ARTICLE.list_news_articles(input)
       show_article
     elsif input == "programs"
       show_programs
@@ -71,28 +71,28 @@ class BV::CLI
   end
 
   def show_news_categories
-    BV::NEWS_ARTICLE.get_news_categories
+    BerkleeValencia::NEWS_ARTICLE.get_news_categories
     puts ""
     puts "----------------------------------------------"
     puts " Which kind of article are you interested in?"
     puts "  Type 'programs' to browse programs instead"
     puts "----------------------------------------------"
-    BV::NEWS_ARTICLE.list_news_categories
+    BerkleeValencia::NEWS_ARTICLE.list_news_categories
     list_news_articles
   end
 
   def show_programs
-    BV::PROGRAM.get_programs
+    BerkleeValencia::PROGRAM.get_programs
     puts ""
     puts "----------------------------------------------------------------"
     puts " Enter the number of the program you'd like to read more about"
     puts "     or type 'news' to browse our latest news and articles."
     puts "----------------------------------------------------------------"
     puts "Graduate Programs"
-    BV::PROGRAM.list_programs("grad")
+    BerkleeValencia::PROGRAM.list_programs("grad")
     puts ""
     puts "Other Programs"
-    BV::PROGRAM.list_programs("other")
+    BerkleeValencia::PROGRAM.list_programs("other")
     show_program
   end
 
@@ -100,7 +100,7 @@ class BV::CLI
     puts ""
     input = gets.strip.downcase
     if input.to_i > 0
-      if BV::NEWS_ARTICLE.print_article(input) == "abort mission!"
+      if BerkleeValencia::NEWS_ARTICLE.print_article(input) == "abort mission!"
         menu
       else
         what_next
@@ -116,7 +116,7 @@ class BV::CLI
     puts ""
     input = gets.strip.downcase
     if input.to_i > 0
-      BV::PROGRAM.print_program(input)
+      BerkleeValencia::PROGRAM.print_program(input)
       what_next
     elsif input == "news"
       show_news_categories

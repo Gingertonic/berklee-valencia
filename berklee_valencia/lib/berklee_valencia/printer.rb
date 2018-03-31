@@ -1,4 +1,4 @@
-class BV::PRINTER
+class BerkleeValencia::PRINTER
   def self.print_article(article, article_extended)
     Formatter::Article.header(article, article_extended)
     Formatter::Article.body(article, article_extended)

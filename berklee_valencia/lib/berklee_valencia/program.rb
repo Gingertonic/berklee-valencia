@@ -1,10 +1,10 @@
-class BV::PROGRAM
+class BerkleeValencia::PROGRAM
   @@grad_programs
   @@other_programs
 
   def self.get_programs
-    @@grad_programs = BV::SCRAPER.scrape_programs("grad")
-    @@other_programs = BV::SCRAPER.scrape_programs("other")
+    @@grad_programs = BerkleeValencia::SCRAPER.scrape_programs("grad")
+    @@other_programs = BerkleeValencia::SCRAPER.scrape_programs("other")
   end
 
   def self.list_programs(type)
@@ -21,8 +21,8 @@ class BV::PROGRAM
     @@other_programs.each { |program| programs << program }
     program = programs.find { |program| program[:i] == input.to_i }
     url = program[:url]
-    program_extended = BV::SCRAPER.scrape_program(url)
-    BV::PRINTER.print_program(program, program_extended)
+    program_extended = BerkleeValencia::SCRAPER.scrape_program(url)
+    BerkleeValencia::PRINTER.print_program(program, program_extended)
   end #method
 
 end #class

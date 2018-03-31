@@ -1,10 +1,10 @@
-class BV::NEWS_ARTICLE
+class BerkleeValencia::NEWS_ARTICLE
   @@categories
   @@articles
   @@matches
 
   def self.get_news_categories
-    @@articles = BV::SCRAPER.scrape_news
+    @@articles = BerkleeValencia::SCRAPER.scrape_news
     @@categories = []
     @@articles.each do |article|
       @@categories.push(article[:category])
@@ -32,8 +32,8 @@ class BV::NEWS_ARTICLE
   def self.print_article(input)
     article = @@articles.find { |article| article[:i] == input.to_i }
     url = article[:url]
-    article_extended = BV::SCRAPER.scrape_article(url)
-    BV::PRINTER.print_article(article, article_extended)
+    article_extended = BerkleeValencia::SCRAPER.scrape_article(url)
+    BerkleeValencia::PRINTER.print_article(article, article_extended)
   end
 
 end

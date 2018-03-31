@@ -1,4 +1,4 @@
-class BV::SCRAPER
+class BerkleeValencia::SCRAPER
 @bv_news = "https://valencia.berklee.edu/news/"
 @bv_programs = "https://valencia.berklee.edu/academic-programs/"
 
