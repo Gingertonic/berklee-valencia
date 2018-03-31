@@ -1,8 +1,10 @@
 # BerkleeValencia
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/berklee_valencia`. To experiment with that code, run `bin/console` for an interactive prompt.
+Buenos días! Berklee Valencia is Berklee College of Music's graduate campus located in Valencia, Spain.
 
-TODO: Delete this and the text above, and describe your gem
+Filled with the musicians, business moguls and technologists of today and tomorrow, there is a wealth of things to discover here.
+
+This is a CLI gem for users to read the latest Berklee Valencia news and find out about programs offered.
 
 ## Installation
 
@@ -22,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Follow in-terminal prompts to navigate.
 
 ## Development
 
