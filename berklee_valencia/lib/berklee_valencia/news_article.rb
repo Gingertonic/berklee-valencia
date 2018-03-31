@@ -3,19 +3,16 @@ class BV::NEWS_ARTICLE
   @@articles
   @@matches
 
-  def self.list_news_categories
+  def self.get_news_categories
     @@articles = BV::SCRAPER.scrape_news
     @@categories = []
-
     @@articles.each do |article|
       @@categories.push(article[:category])
     end
-
     @@categories.uniq!
+  end
 
-    puts "--------------------------------------------"
-    puts "Which kind of article are you interested in?"
-    puts "--------------------------------------------"
+  def self.list_news_categories
     @@categories.each.with_index(1) do |category, i|
       puts "#{i}. #{category}"
     end
@@ -24,8 +21,9 @@ class BV::NEWS_ARTICLE
   def self.list_news_articles(input)
     @@matches = @@articles.find_all {|article| article[:category] == @@categories[input.to_i-1]}
     @@matches.each.with_index(1) do |article, i|
-        puts "#{i}: #{article[:title]} // Posted on #{article[:date]}"
-        puts "      #{article[:excerpt]}"
+        puts "#{i}: #{Formatter.wrap(article[:title])}"
+        puts "  // Posted on #{article[:date]}"
+        puts "#{Formatter.wrap(article[:excerpt])}"
         puts ""
         article[:i] = i
       end

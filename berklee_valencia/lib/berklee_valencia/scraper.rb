@@ -17,30 +17,17 @@ class BV::SCRAPER
     articles
   end
 
-  def self.scrape_graduate_programs
-    academics = Nokogiri::HTML(open(@bv_programs))
-    graduate_programs = []
-    academics.css("div.col-3-5").first.css("ul a").each do |program|
-      graduate_programs << {
-          name: program.text,
-          detail: program.css("span").text,
-          url: program.attribute("href").value
+  def self.scrape_programs(type)
+    type == "grad" ? academics = Nokogiri::HTML(open(@bv_programs)).css("div.col-3-5").first : academics = Nokogiri::HTML(open(@bv_programs)).css("div.col-3-5").last
+    programs = []
+    academics.css("ul a").each do |program|
+      programs << {
+        name: program.text,
+        detail: program.css("span").text,
+        url: program.attribute("href").value
       }
     end
-    graduate_programs
-  end
-
-  def self.scrape_other_programs
-    academics = Nokogiri::HTML(open(@bv_programs))
-    other_programs = []
-    academics.css("div.col-3-5").last.css("ul a").each do |program|
-      other_programs << {
-          name: program.text,
-          detail: program.css("span").text,
-          url: program.attribute("href").value
-      }
-    end
-    other_programs
+    programs
   end
 
   def self.scrape_article(url)
@@ -50,17 +37,20 @@ class BV::SCRAPER
       related_links: [],
       body: []
     }
+    sort_content(article, extended_info)
+  end
 
+  def self.sort_content(article, extended_info)
     article.css("div#tab_intro p").each do |para|
       if para.css("iframe").length == 0 && para.css("em").text.length < 30 && para.css("strong").text == "" && !para.text.match(/•/)
         extended_info[:body] << para.text
       elsif para.css("strong").text != ""
-        extended_info[:body] << "--- #{para.text} ---"
+        extended_info[:body] << " --- #{para.text} ---"
       elsif para.css("em").text != ""
-        header = "#{para.text}"
-        extended_info[:body] << " - - - - - - - - - - - Media - - - - - - - - - - -"
-        extended_info[:body] << header
-        extended_info[:body] << " - - - - - - - - - - - - - - - - - - - - - - - - -"
+        comment = "#{para.text}"
+        extended_info[:body] << " - - - - - - - - - - - - - - - - - Media - - - - - - - - - - - - - - - - - - -"
+        extended_info[:body] << comment
+        extended_info[:body] << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
       elsif para.css("iframe").length > 0
        extended_info[:related_links] << para.css("iframe").attribute("src").value
       end
@@ -74,7 +64,11 @@ class BV::SCRAPER
       highlights: [],
       list: []
     }
+    scrape_program_intro(program, extended_info)
+    scrape_program_highlights(program, extended_info)
+  end
 
+  def self.scrape_program_intro(program, extended_info)
     # scrape intro
     if program.css("div#tab_intro p").first.text.length > 0
       extended_info[:introduction] = program.css("div#tab_intro p").first.text
@@ -84,8 +78,9 @@ class BV::SCRAPER
       intro = program.css("div#tab_intro p").detect {|p| p.text.length > 150}
       extended_info[:introduction] = intro.text
     end
+  end
 
-    # scrape highlights
+  def self.scrape_program_highlights(program, extended_info)
     program.css("div#tab_intro div.block_content").each do |highlight|
       hl_title = highlight.css("p.block_content_item_title").text
       hl_body = highlight.css("div.bk_txt").text
@@ -95,8 +90,8 @@ class BV::SCRAPER
         hl_body: hl_body
       }
     end
-
     extended_info
   end
+
 
 end
