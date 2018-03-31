@@ -13,10 +13,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Gingertonic"]
   s.email       = 'bethmschofield@gmail.com'
   s.files       = [
-                  "lib/berklee_valencia.rb",
-                  "lib/berklee_valencia/cli.rb", "lib/berklee_valencia/scraper.rb",
-                  "lib/berklee_valencia/formatter.rb", "lib/berklee_valencia/printer.rb",
-                  "lib/berklee_valencia/news_article.rb", "lib/berklee_valencia/program.rb"
+                  "./lib/berklee_valencia.rb",
+                  "lib/berklee_valencia/cli.rb", "./lib/berklee_valencia/scraper.rb",
+                  "./lib/berklee_valencia/formatter.rb", "./lib/berklee_valencia/printer.rb",
+                  "./lib/berklee_valencia/news_article.rb", "./lib/berklee_valencia/program.rb"
                   ]
   s.homepage    = 'http://rubygems.org/gems/worlds-best-restaurants'
   s.license     = 'MIT'
