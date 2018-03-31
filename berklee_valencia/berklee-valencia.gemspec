@@ -1,10 +1,10 @@
 #
 # lib = File.expand_path("../lib", __FILE__)
 # $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "./lib/berklee_valencia/version"
+require_relative "./lib/berklee_valencia/version"
 
 Gem::Specification.new do |s|
-  s.name        = 'berklee_valencia'
+  s.name        = 'berklee-valencia'
   s.version     = BerkleeValencia::VERSION
   s.date        = '2018-04-01'
   s.summary     = "CLI gem for user to read latest Berklee Valencia news and about programs offered."
@@ -12,15 +12,10 @@ Gem::Specification.new do |s|
   Filled with the musicians, business moguls and technologists of today and tomorrow, there is a wealth of things to discover here."
   s.authors     = ["Gingertonic"]
   s.email       = 'bethmschofield@gmail.com'
-  s.files       = [
-                  "lib/berklee_valencia.rb",
-                  "lib/berklee_valencia/cli.rb", "lib/berklee_valencia/scraper.rb",
-                  "lib/berklee_valencia/formatter.rb", "lib/berklee_valencia/printer.rb",
-                  "lib/berklee_valencia/news_article.rb", "lib/berklee_valencia/program.rb"
-                  ]
-  s.homepage    = 'http://rubygems.org/gems/worlds-best-restaurants'
+  s.files       = ["lib/berklee_valencia.rb", "lib/berklee_valencia/cli.rb", "lib/berklee_valencia/news_article.rb", "lib/berklee_valencia/program.rb", "lib/berklee_valencia/scraper.rb", "lib/berklee_valencia/formatter.rb", "lib/berklee_valencia/printer.rb", "config/environment.rb"]
+  s.homepage    = 'http://rubygems.org/gems/berklee-valencia'
   s.license     = 'MIT'
-  s.executables << 'berklee_valencia'
+  s.executables << 'berklee-valencia'
 
   s.add_development_dependency "bundler", "~> 1.16"
   s.add_development_dependency "rake", "~> 10.0"
