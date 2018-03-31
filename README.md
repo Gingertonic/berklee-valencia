@@ -11,7 +11,7 @@ This is a CLI gem for users to read the latest Berklee Valencia news and find ou
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'berklee_valencia'
+gem 'berklee-valencia'
 ```
 
 And then execute:
@@ -20,11 +20,13 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install berklee_valencia
+    $ gem install berklee-valencia
 
 ## Usage
 
-Follow in-terminal prompts to navigate.
+Type the below and follow the on screen prompts.
+
+  $ berklee-valencia
 
 ## Development
 
