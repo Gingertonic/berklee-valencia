@@ -1,4 +1,4 @@
-require_relative "berklee_valencia/version"
+require_relative "./berklee_valencia/version"
 
 require 'nokogiri'
 require 'open-uri'
