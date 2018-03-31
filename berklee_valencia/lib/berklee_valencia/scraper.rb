@@ -84,7 +84,6 @@ class BV::SCRAPER
     program.css("div#tab_intro div.block_content").each do |highlight|
       hl_title = highlight.css("p.block_content_item_title").text
       hl_body = highlight.css("div.bk_txt").text
-      # extended_info[:highlights].send("\"#{hl_title.to_sym}\"=>", hl_body)
       extended_info[:highlights] << {
         hl_title: hl_title,
         hl_body: hl_body

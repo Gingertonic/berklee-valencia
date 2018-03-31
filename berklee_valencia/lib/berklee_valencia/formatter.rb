@@ -9,9 +9,9 @@ class Formatter
       border = border_maker(article, article_extended)
       puts ""
       2.times {puts "#{border}"}
-      puts "#{wrap(article[:title])}" #puts "Article title" #
+      puts "#{wrap(article[:title])}"
       gap = gap_maker(article, article_extended, border)
-      puts "#{article_extended[:author]}#{gap}#{article[:date]}"      #{article[:date]}puts "By author       date"
+      puts "#{article_extended[:author]}#{gap}#{article[:date]}"
       2.times {puts "#{border}"}
     end
 
@@ -86,7 +86,7 @@ class Formatter
       if program[:detail] != ""
         puts "  (#{program[:detail]})"
       end
-    end #program header method
+    end
 
     def self.intro(program_extended)
       puts "--------------------------------------------------------------------------------"
@@ -115,6 +115,7 @@ class Formatter
       2.times {puts "--------------------------------------------------------------------------------"}
       2.times {puts ""}
     end
+
   end #Program class
 
 end #Formatter
