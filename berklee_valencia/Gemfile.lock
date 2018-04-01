@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    berklee_valencia (0.1.0)
-      nokogiri
+    berklee-valencia (0.1.5)
+      nokogiri (>= 1.8)
       open_uri_redirections
 
 GEM
@@ -37,11 +37,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  berklee_valencia!
+  berklee-valencia!
   bundler (~> 1.16)
   pry
   rake (~> 10.0)
-  rspec (~> 3.0)
+  rspec (>= 3.0)
 
 BUNDLED WITH
    1.16.1

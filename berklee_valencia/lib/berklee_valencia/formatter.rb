@@ -4,43 +4,43 @@ class Formatter
 	  text.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
 	end
 
-  class Article < Formatter
-    def self.header(article, article_extended)
-      border = border_maker(article, article_extended)
+  class Formatter::FORMATARTICLE < Formatter
+    def self.header(article)
+      border = border_maker(article)
       puts ""
       2.times {puts "#{border}"}
-      puts "#{wrap(article[:title])}"
-      gap = gap_maker(article, article_extended, border)
-      puts "#{article_extended[:author]}#{gap}#{article[:date]}"
+      puts "#{wrap(article.title)}"
+      gap = gap_maker(article, border)
+      puts "#{article.author}#{gap}#{article.date}"
       2.times {puts "#{border}"}
     end
 
-    def self.border_maker(article, article_extended)
+    def self.border_maker(article)
       border = ""
-      if article[:title].length < (article_extended[:author].length + article[:date].length)
-        borderlength = article_extended[:author].length + article[:date].length + 5
+      if article.title.length < (article.author.length + article.date.length)
+        borderlength = article.author.length + article.date.length + 5
         borderlength.times {border << "-"}
-      elsif article[:title].length > 80
+      elsif article.title.length > 80
         80.times {border << "-"}
       else
-        borderlength = article[:title].length
+        borderlength = article.title.length
         borderlength.times {border << "-"}
       end
       border
     end
 
-    def self.gap_maker(article, article_extended, border)
+    def self.gap_maker(article, border)
       gap = ""
-      if border.length > article[:title].length
+      if border.length > article.title.length
         5.times {gap << " "}
       else
-        (article[:title].length - article_extended[:author].length - article[:date].length).times {gap << " "}
+        (article.title.length - article.author.length - article.date.length).times {gap << " "}
       end
       gap
     end
 
-    def self.body(article, article_extended)
-      article_extended[:body].each do |paragraph|
+    def self.body(article)
+      article.body.each do |paragraph|
         if paragraph.match(/-{3} /)
           puts " ______________________________________________________________________________"
           puts "  ||               Press enter to scroll to the next section                ||"
@@ -48,16 +48,14 @@ class Formatter
           puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
           input = gets.strip
           if input == "menu"
-            return "abort mission!"
+            return "menu"
           end
-        end
-
-        if !paragraph.downcase.match(/click here/)
+        elsif !paragraph.downcase.match(/click here/)
           if paragraph.match(/below/)
             puts "#{wrap(paragraph)}"
-            puts "        Vist #{article_extended[:related_links].shift}"
+            puts "        Vist #{article.related_links.shift}"
           elsif paragraph ==  " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-              puts "        Vist #{article_extended[:related_links].shift}"
+              puts "        Vist #{article.related_links.shift}"
               puts paragraph
           else
             puts "#{wrap(paragraph)}"
@@ -74,33 +72,31 @@ class Formatter
       puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
       2.times {puts ""}
     end
-  end
+  end #class
 
-  class Program < Formatter
+  class Formatter::FORMATPROGRAM < Formatter
     def self.header(program)
       border = ""
-      (program[:name].gsub("#{program[:detail]}", "").length + 4).times {border << "-"}
+      (program.title.length + 4).times {border << "-"}
       puts ""
       2.times {puts border}
-      puts "  #{program[:name].gsub("#{program[:detail]}", "")}"
-      if program[:detail] != ""
-        puts "  (#{program[:detail]})"
-      end
+      puts "  #{program.title}"
+      puts "  #{program.type}"
     end
 
-    def self.intro(program_extended)
+    def self.intro(program)
       puts "--------------------------------------------------------------------------------"
       puts "                                Introduction"
       puts "--------------------------------------------------------------------------------"
-      puts "#{wrap(program_extended[:introduction])}"
+      puts "#{wrap(program.introduction)}"
       puts ""
     end
 
-    def self.highlights(program_extended)
+    def self.highlights(program)
       puts "--------------------------------------------------------------------------------"
       puts "                               Program Highlights"
       puts "--------------------------------------------------------------------------------"
-      program_extended[:highlights].each do |highlight|
+      program.highlights.each do |highlight|
         puts "| #{highlight[:hl_title]} |"
         puts "#{wrap(highlight[:hl_body])}"
         puts ""
@@ -111,7 +107,7 @@ class Formatter
       puts "--------------------------------------------------------------------------------"
       puts "                        For full program information:"
       puts "--------------------------------------------------------------------------------"
-      puts "Visit #{program[:url]}"
+      puts "Visit #{program.url}"
       2.times {puts "--------------------------------------------------------------------------------"}
       2.times {puts ""}
     end
