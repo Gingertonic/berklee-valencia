@@ -26,7 +26,7 @@ Or install it yourself as:
 
 Type the below and follow the on screen prompts.
 
-  $ berklee-valencia
+    $ berklee-valencia
 
 ## Development
 
