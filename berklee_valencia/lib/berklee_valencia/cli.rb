@@ -33,9 +33,7 @@ class BerkleeValencia::CLI
 
   def programs_or_news
     input = gets.strip.downcase
-    if input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
-    elsif input == "1" || input == "2"
+    if input.to_i.between?(1,2)
       please_wait
       case input
       when "1"
@@ -44,7 +42,7 @@ class BerkleeValencia::CLI
         list_programs
       end
     else
-      say_what
+      if_not_that_then_this(input)
     end
   end
 
@@ -63,10 +61,8 @@ class BerkleeValencia::CLI
       show_program(input)
     elsif input == "news"
       list_article_categories
-    elsif input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
     else
-      say_what
+      if_not_that_then_this(input)
     end
   end
 
@@ -96,10 +92,8 @@ class BerkleeValencia::CLI
       list_articles(input)
     elsif input == "programs"
       list_programs
-    elsif input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
     else
-      say_what
+      if_not_that_then_this(input)
     end
   end
 
@@ -117,10 +111,8 @@ class BerkleeValencia::CLI
       show_article(category, input)
     elsif input == "menu"
       programs_or_news
-    elsif input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
     else
-      say_what
+      if_not_that_then_this(input)
     end
   end
 
@@ -152,6 +144,14 @@ class BerkleeValencia::CLI
     puts "  see you next time with the latest news from Berklee Valencia!"
     puts ""
     programs_or_news
+  end
+
+  def if_not_that_then_this(input)
+    if input.match(/hasta luego|exit|bye|ciao/)
+      goodbye
+    else
+      say_what
+    end
   end
 
   def say_what

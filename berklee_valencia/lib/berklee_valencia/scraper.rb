@@ -3,7 +3,7 @@ class BerkleeValencia::SCRAPER
   @@bv_programs = "https://valencia.berklee.edu/academic-programs/"
 
   def self.make_programs
-    course_types = Nokogiri::HTML(open(@@bv_programs)).css("div.col-3-5")
+    course_types = Nokogiri::HTML(open(@@bv_programs, :allow_redirections => :all)).css("div.col-3-5")
     course_types.each do |type|
       type.css("ul a").each do |program|
         attributes = {
@@ -18,7 +18,7 @@ class BerkleeValencia::SCRAPER
   end
 
   def self.make_articles
-    articles = Nokogiri::HTML(open(@@bv_news))
+    articles = Nokogiri::HTML(open(@@bv_news, :allow_redirections => :all))
     articles.css("div#news_container div.content").each do |article|
       attributes = {
         title: article.css("div.news_excerpt h3 a").text,
@@ -32,7 +32,7 @@ class BerkleeValencia::SCRAPER
   end
 
   def self.get_article_extended_info(url)
-    article = Nokogiri::HTML(open(url))
+    article = Nokogiri::HTML(open(url, :allow_redirections => :all))
     extended_info = {
       author: article.css("span.author").text,
       related_links: [],
