@@ -1,0 +1,46 @@
+class BerkleeValencia::Printer
+
+  def self.print_programs_list
+    puts "Graduate Programs"
+    BerkleeValencia::Program.graduate_programs.each do |program|
+        puts "#{program[:i]}: #{program[:name]}"
+    end
+    puts "Other Programs"
+    BerkleeValencia::Program.other_programs.each do |program|
+        puts "#{program[:i]}: #{program[:name]}"
+    end
+  end
+
+  def self.print_program(program)
+    BerkleeValencia::Formatter::Program.header(program)
+    BerkleeValencia::Formatter::Program.intro(program)
+    if program[:highlights].length > 0
+      BerkleeValencia::Formatter::Program.highlights(program)
+    end
+    BerkleeValencia::Formatter::Program.more_info(program)
+  end
+
+  def self.print_article_categories
+    BerkleeValencia::Article.categories.each_with_index do |category, i|
+      puts "#{i}. #{category}"}
+    end
+  end
+
+  def self.print_articles_list(input)
+    articles = BerkleeValencia::Article.find_by_category(input)
+    articles.each.with_index(1) do |article, i|
+      puts "#{i}: #{BerkleeValencia::Formatter.wrap(article[:title])}"
+      puts "  // Posted on #{article[:date]}"
+      puts "#{BerkleeValencia::Formatter.wrap(article[:excerpt])}"
+      puts ""
+      article[:i] = i
+    end
+  end
+
+  def self.print_article(article)
+    BerkleeValencia::Formatter::Article.header(article)
+    BerkleeValencia::Formatter::Article.body(article)
+    BerkleeValencia::Formatter::Article.end
+  end
+
+end #class

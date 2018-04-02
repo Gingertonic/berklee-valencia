@@ -3,7 +3,7 @@
 require_relative '../lib/berklee_valencia.rb'
 #
 # BerkleeValencia::CLI.new.call
-session = BerkleeValencia::NEWCLI.new.call
+session = BerkleeValencia::CLI.new.call
 
 
 

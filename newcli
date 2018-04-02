@@ -17,7 +17,7 @@ class BerkleeValencia::CLI
     puts "||/   ||"
     puts "      ||      ...there is a wealth of things to discover here!"
     puts "      ||"
-    menu
+    programs_or_news
   end
 
   def menu
@@ -39,8 +39,10 @@ class BerkleeValencia::CLI
       please_wait
       case input
       when "1"
+        BerkleeValencia::SCRAPER.make_articles
         list_article_categories
       when "2"
+        BerkleeValencia::SCRAPER.make_programs
         list_programs
       end
     else
@@ -49,55 +51,42 @@ class BerkleeValencia::CLI
   end
 
   def list_programs
-    if BerkleeValencia::PROGRAM.all == []
-      BerkleeValencia::SCRAPER.make_programs
-    end
     puts ""
     puts "----------------------------------------------------------------"
     puts " Enter the number of the program you'd like to read more about"
     puts "     or type 'news' to browse our latest news and articles."
     puts "----------------------------------------------------------------"
-    BerkleeValencia::PRINTER.print_programs_list
+    BerkleeValencia::Printer.print_programs_list
     input = gets.strip.downcase
-    if input.to_i.between?(1,BerkleeValencia::PROGRAM.all.length)
+    if input.to_i > 0
       show_program(input)
     elsif input == "news"
       list_article_categories
-    elsif input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
     else
       say_what
     end
   end
 
   def show_program(input)
-    program = BerkleeValencia::PROGRAM.find_by_index(input.to_i)
-    if !program.introduction
-      attributes = BerkleeValencia::SCRAPER.get_program_extended_info(program.url)
-      program.extended_info_from_scraper(attributes)
-    end
-    BerkleeValencia::PRINTER.print_program(program)
-    what_next
+    program = BerkleeValencia::Program.find_by_index(input.to_i)
+    attributes = BerkleeValencia::Scraper.get_program_extended_info(url)
+    program.extended_info_from_scraper(attributes)
+    BerkleeValencia::Printer.print_program(program)
+    what_next?
   end
 
-  def list_article_categories
-    if BerkleeValencia::ARTICLE.all == []
-      BerkleeValencia::SCRAPER.make_articles
-    end
+  def list_article_categories #iterate through Article Class @@news_categories array to print category names
     puts ""
     puts "----------------------------------------------"
     puts " Which kind of article are you interested in?"
     puts "  Type 'programs' to browse programs instead"
     puts "----------------------------------------------"
-    BerkleeValencia::CATEGORY.index_categories
-    BerkleeValencia::PRINTER.print_article_categories
+    BerkleeValencia::Printer.print_article_categories
     input = gets.strip.downcase
-    if input.to_i.between?(1,BerkleeValencia::CATEGORY.all.length)
-      list_articles(input)
+    if input.to_i > 0
+      list_articles
     elsif input == "programs"
       list_programs
-    elsif input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
     else
       say_what
     end
@@ -109,30 +98,32 @@ class BerkleeValencia::CLI
     puts "Enter the number of the article you'd like to read in full"
     puts "           or type 'menu' to see all options"
     puts "----------------------------------------------------------"
-    category = BerkleeValencia::CATEGORY.find_cat_by_index(input)
-    category.index_articles
-    BerkleeValencia::PRINTER.print_articles_list(category)
+    BerkleeValencia::Printer.print_articles_list(input)
     input = gets.strip.downcase
-    if input.to_i.between?(1,category.articles.length)
-      show_article(category, input)
+    if input.to_i > 0
+      show_article(input)
     elsif input == "menu"
       programs_or_news
-    elsif input.match(/hasta luego|exit|bye|ciao/)
-      goodbye
     else
       say_what
     end
   end
 
-  def show_article(category, input)
-    article = category.find_article_by_index(input)
-    if !article.body
-      attributes = BerkleeValencia::SCRAPER.get_article_extended_info(article.url)
-      article.extended_info_from_scraper(attributes)
-    end
-    BerkleeValencia::PRINTER.print_article(article)
+  def show_article(input)
+    article = BerkleeValencia::Article.find_by_index(input)
+    attributes = BerkleeValencia::Scraper.get_article_extended_info(url)
+    article.extended_info_from_scraper(attribute_hash)
+    BerkleeValencia::Printer.print_article(article)
     what_next
   end
+  # def show_article
+  #   input = gets.strip
+  #   article = Article.find_by_title(i)
+  #   Article.all.detect {|article| article[:index] == matches[input-1][:title]}
+  #   BV::Printer.print_article(article)
+  #   what_next?
+  # end
+
 
   def please_wait
     puts ""
@@ -142,7 +133,7 @@ class BerkleeValencia::CLI
     puts ""
   end
 
-  def what_next
+  def what_next?
     puts ""
     puts "What would you like to do next?"
     puts "1. See news articles"
@@ -161,10 +152,6 @@ class BerkleeValencia::CLI
   end
 
   def goodbye
-    puts ""
-    puts "Hasta luego!"
-    puts ""
+    goodbye message
     exit!
   end
-
-end

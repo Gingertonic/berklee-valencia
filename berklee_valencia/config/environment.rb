@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
 require "open_uri_redirections"
-require 'pry'
 #
 # require_relative "../lib/berklee_valencia/version.rb"
 # require_relative '../lib/berklee_valencia/cli.rb'

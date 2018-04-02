@@ -31,7 +31,6 @@ class BerkleeValencia::PRINTER
   end
 
   def self.print_article_categories
-    # binding.pry
     BerkleeValencia::CATEGORY.all.each {|cat| puts "#{cat.i}. #{cat.title}"}
     puts ""
   end
@@ -51,4 +50,4 @@ class BerkleeValencia::PRINTER
     Formatter::FORMATARTICLE.end
   end
 
-end #class
+end

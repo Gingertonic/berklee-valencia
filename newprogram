@@ -1,0 +1,35 @@
+class BerkleeValencia::Program < BerkleeValencia::Item
+  attr_reader :subtitle, :i
+  attr_accessor :highlights, :introduction
+
+  @@graduate_programs = []
+  @@other_programs = []
+
+  def new_from_scraper(attribute_hash)
+    @type = attribute_hash[:hash]
+    @title = attribute_hash[:title]
+    @subtitle = attribute_hash[:subtitle]
+    @url = attribute_hash[:url]
+    @i == @@all.length + 1
+    @@all << self
+    @type == "Graduate Programs" ? @@graduate_programs << self : @@other_programs << self
+  end
+
+  def extended_info_from_scraper(attribute_hash)
+    @highlights = attribute_hash[:highlights]
+    @introduction = attribute_hash[:introduction]
+  end
+
+  def self.find_by_index(input)
+    @@all.detect{|program| program[i] == input}
+  end
+
+  def self.graduate_programs
+    @@graduate_programs
+  end
+
+  def self.other_programs
+    @@other_programs
+  end
+
+end

@@ -14,7 +14,6 @@ class BerkleeValencia::CATEGORY
   end
 
   def self.find_or_create_from_article(article)
-    # binding.pry
     if find_by_title(article.category)
       find_by_title(article.category).articles << article
     else
@@ -31,7 +30,6 @@ class BerkleeValencia::CATEGORY
   end
 
   def self.index_categories
-    # binding.pry
     @@all.each.with_index(1) {|cat, i| cat.i = i}
   end
 
