@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   Filled with the musicians, business moguls and technologists of today and tomorrow, there is a wealth of things to discover here."
   s.authors     = ["Gingertonic"]
   s.email       = 'bethmschofield@gmail.com'
-  s.files       = ["lib/berklee_valencia/version.rb", "lib/berklee_valencia.rb", "lib/berklee_valencia/cli.rb", "lib/berklee_valencia/news_article.rb", "lib/berklee_valencia/program.rb", "lib/berklee_valencia/scraper.rb", "lib/berklee_valencia/formatter.rb", "lib/berklee_valencia/printer.rb", "config/environment.rb"]
+  s.files       = ["lib/berklee_valencia/version.rb", "lib/berklee_valencia.rb", "lib/berklee_valencia/cli.rb", "lib/berklee_valencia/article.rb", "lib/berklee_valencia/program.rb", "lib/berklee_valencia/scraper.rb", "lib/berklee_valencia/formatter.rb", "lib/berklee_valencia/printer.rb", "lib/berklee_valencia/item.rb", "lib/berklee_valencia/category.rb", "config/environment.rb"]
   s.homepage    = 'https://github.com/Gingertonic/berklee-valencia'
   s.license     = 'MIT'
   s.executables << 'berklee-valencia'
