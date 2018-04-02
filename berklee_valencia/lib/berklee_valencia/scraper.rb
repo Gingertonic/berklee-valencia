@@ -1,36 +1,37 @@
 class BerkleeValencia::SCRAPER
-@bv_news = "https://valencia.berklee.edu/news/"
-@bv_programs = "https://valencia.berklee.edu/academic-programs/"
+  @@bv_news = "https://valencia.berklee.edu/news/"
+  @@bv_programs = "https://valencia.berklee.edu/academic-programs/"
 
-  def self.scrape_news
-    news = Nokogiri::HTML(open(@bv_news))
-    articles = []
-    news.css("div#news_container div.content").each do |article|
-      articles << {
-        date: article.css("div.news_excerpt span.date").text,
+  def self.make_programs
+    course_types = Nokogiri::HTML(open(@@bv_programs)).css("div.col-3-5")
+    course_types.each do |type|
+      type.css("ul a").each do |program|
+        attributes = {
+          title: program.text,
+          subtitle: program.css("span").text,
+          url: program.attribute("href").value,
+          type: type.css("h4").text
+        }
+      BerkleeValencia::PROGRAM.new_from_scraper(attributes)
+      end
+    end
+  end
+
+  def self.make_articles
+    articles = Nokogiri::HTML(open(@@bv_news))
+    articles.css("div#news_container div.content").each do |article|
+      attributes = {
         title: article.css("div.news_excerpt h3 a").text,
+        category: article.css("span.category_name").text,
+        date: article.css("div.news_excerpt span.date").text,
         excerpt: article.css("div.news_excerpt p").text,
-        url: article.css("div.news_excerpt h3 a").attribute("href").value,
-        category: article.css("span.category_name").text
+        url: article.css("div.news_excerpt h3 a").attribute("href").value
       }
+      BerkleeValencia::ARTICLE.new_from_scraper(attributes)
     end
-    articles
   end
 
-  def self.scrape_programs(type)
-    type == "grad" ? academics = Nokogiri::HTML(open(@bv_programs)).css("div.col-3-5").first : academics = Nokogiri::HTML(open(@bv_programs)).css("div.col-3-5").last
-    programs = []
-    academics.css("ul a").each do |program|
-      programs << {
-        name: program.text,
-        detail: program.css("span").text,
-        url: program.attribute("href").value
-      }
-    end
-    programs
-  end
-
-  def self.scrape_article(url)
+  def self.get_article_extended_info(url)
     article = Nokogiri::HTML(open(url))
     extended_info = {
       author: article.css("span.author").text,
@@ -38,6 +39,18 @@ class BerkleeValencia::SCRAPER
       body: []
     }
     sort_content(article, extended_info)
+    extended_info
+  end
+
+  def self.get_program_extended_info(url)
+    program = Nokogiri::HTML(open(url, :allow_redirections => :all))
+    extended_info = {
+      introduction: "",
+      highlights: []
+    }
+    scrape_program_intro(program, extended_info)
+    scrape_program_highlights(program, extended_info)
+    extended_info
   end
 
   def self.sort_content(article, extended_info)
@@ -58,18 +71,7 @@ class BerkleeValencia::SCRAPER
     extended_info
   end
 
-  def self.scrape_program(url)
-    program = Nokogiri::HTML(open(url, :allow_redirections => :all))
-    extended_info = {
-      highlights: [],
-      list: []
-    }
-    scrape_program_intro(program, extended_info)
-    scrape_program_highlights(program, extended_info)
-  end
-
   def self.scrape_program_intro(program, extended_info)
-    # scrape intro
     if program.css("div#tab_intro p").first.text.length > 0
       extended_info[:introduction] = program.css("div#tab_intro p").first.text
     elsif program.css("div#tab_intro h4").length > 0
@@ -89,8 +91,6 @@ class BerkleeValencia::SCRAPER
         hl_body: hl_body
       }
     end
-    extended_info
   end
 
-
-end
+end #class

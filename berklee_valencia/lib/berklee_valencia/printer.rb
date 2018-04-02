@@ -1,16 +1,54 @@
 class BerkleeValencia::PRINTER
-  def self.print_article(article, article_extended)
-    Formatter::Article.header(article, article_extended)
-    Formatter::Article.body(article, article_extended)
-    Formatter::Article.end
+
+  def self.print_programs_list
+    puts "Graduate Programs"
+    BerkleeValencia::PROGRAM.graduate_programs.each do |program|
+      if program.subtitle.length > 0
+        puts "#{program.i}: #{program.title.gsub(program.subtitle, "")} (#{program.subtitle})"
+      else
+        puts "#{program.i}: #{program.title}"
+      end
+    end
+    puts ""
+    puts "Other Programs"
+    BerkleeValencia::PROGRAM.other_programs.each do |program|
+      if program.subtitle.length > 0
+        puts "#{program.i}: #{program.title.gsub(program.subtitle, "")} (#{program.subtitle})"
+      else
+        puts "#{program.i}: #{program.title}"
+      end
+    end
+    puts ""
   end
 
-  def self.print_program(program, program_extended)
-    Formatter::Program.header(program)
-    Formatter::Program.intro(program_extended)
-    if program_extended[:highlights].length > 0
-      Formatter::Program.highlights(program_extended)
+  def self.print_program(program)
+    Formatter::FORMATPROGRAM.header(program)
+    Formatter::FORMATPROGRAM.intro(program)
+    if program.highlights.length > 0
+      Formatter::FORMATPROGRAM.highlights(program)
     end
-    Formatter::Program.more_info(program)
+    Formatter::FORMATPROGRAM.more_info(program)
   end
+
+  def self.print_article_categories
+    # binding.pry
+    BerkleeValencia::CATEGORY.all.each {|cat| puts "#{cat.i}. #{cat.title}"}
+    puts ""
+  end
+
+  def self.print_articles_list(category)
+    category.articles.each do |article|
+      puts "#{article.i}: #{Formatter.wrap(article.title)}"
+      puts "  // Posted on #{article.date}"
+      puts "#{Formatter.wrap(article.excerpt)}"
+      puts ""
+    end
+  end
+
+  def self.print_article(article)
+    Formatter::FORMATARTICLE.header(article)
+    Formatter::FORMATARTICLE.body(article)
+    Formatter::FORMATARTICLE.end
+  end
+
 end #class

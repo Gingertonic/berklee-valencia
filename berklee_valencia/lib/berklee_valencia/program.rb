@@ -1,28 +1,37 @@
-class BerkleeValencia::PROGRAM
-  @@grad_programs
-  @@other_programs
+class BerkleeValencia::PROGRAM < BerkleeValencia::ITEM
+  attr_accessor :type, :introduction, :subtitle, :highlights, :i
+  @@all = []
+  @@graduate_programs = []
+  @@other_programs = []
 
-  def self.get_programs
-    @@grad_programs = BerkleeValencia::SCRAPER.scrape_programs("grad")
-    @@other_programs = BerkleeValencia::SCRAPER.scrape_programs("other")
+  def self.new_from_scraper(attribute_hash)
+    new_program = BerkleeValencia::PROGRAM.new(attribute_hash[:title], attribute_hash[:url])
+    new_program.type = attribute_hash[:type]
+    new_program.subtitle = attribute_hash[:subtitle]
+    new_program.i = @@all.length + 1
+    @@all << new_program
+    new_program.type == "Graduate Programs" ? @@graduate_programs << new_program : @@other_programs << new_program
   end
 
-  def self.list_programs(type)
-    type == "grad" ? programs = @@grad_programs : programs = @@other_programs
-    programs == @@grad_programs ? i = 1 : i = (@@grad_programs.length + 1)
-    programs.each.with_index(i) do |program, i|
-      (program[:detail] != "") ? (puts "#{i}: #{program[:name].gsub("#{program[:detail]}", "")} (#{program[:detail]})") : (puts "#{i}: #{program[:name]}")
-      program[:i] = i
-    end# do
-  end #list programs method
+  def extended_info_from_scraper(attribute_hash)
+    @highlights = attribute_hash[:highlights]
+    @introduction = attribute_hash[:introduction]
+  end
 
-  def self.print_program(input)
-    programs = @@grad_programs
-    @@other_programs.each { |program| programs << program }
-    program = programs.find { |program| program[:i] == input.to_i }
-    url = program[:url]
-    program_extended = BerkleeValencia::SCRAPER.scrape_program(url)
-    BerkleeValencia::PRINTER.print_program(program, program_extended)
-  end #method
+  def self.find_by_index(input)
+    @@all.detect{|program| program.i == input}
+  end
 
-end #class
+  def self.graduate_programs
+    @@graduate_programs
+  end
+
+  def self.other_programs
+    @@other_programs
+  end
+
+  def self.all
+    @@all
+  end
+
+end
