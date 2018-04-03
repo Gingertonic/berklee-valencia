@@ -109,8 +109,6 @@ class BerkleeValencia::CLI
     input = gets.strip.downcase
     if input.to_i.between?(1,category.articles.length)
       show_article(category, input)
-    elsif input == "menu"
-      programs_or_news
     else
       if_not_that_then_this(input)
     end
@@ -149,6 +147,8 @@ class BerkleeValencia::CLI
   def if_not_that_then_this(input)
     if input.match(/hasta luego|exit|bye|ciao/)
       goodbye
+    elsif input == "menu"
+      menu
     else
       say_what
     end
