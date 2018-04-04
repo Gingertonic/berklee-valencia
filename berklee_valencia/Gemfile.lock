@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    berklee-valencia (0.2.1)
+    berklee-valencia (0.2.2)
       nokogiri (>= 1.8)
       open_uri_redirections
 

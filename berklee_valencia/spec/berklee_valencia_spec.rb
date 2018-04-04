@@ -3,9 +3,13 @@ RSpec.describe BerkleeValencia do
     expect(BerkleeValencia::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "has an Article class" do
+    expect(BerkleeValencia::ARTICLE).not_to be nil
   end
-end
 
- 
+
+  it "has an Program class" do
+    expect(BerkleeValencia::PROGRAM).not_to be nil
+  end
+
+end

@@ -47,7 +47,7 @@ class BerkleeValencia::PRINTER
   def self.print_article(article)
     Formatter::FORMATARTICLE.header(article)
     Formatter::FORMATARTICLE.body(article)
-    Formatter::FORMATARTICLE.end
+    Formatter::FORMATARTICLE.end(article)
   end
 
 end

@@ -65,12 +65,18 @@ class Formatter
       end #do
     end #print_body method
 
-    def self.end
+    def self.end(article)
       puts ""
       puts " ______________________________________________________________________________"
-      puts "  ||                             END OF ARTICLE                             ||"
+      puts "  ||                          END OF ARTICLE                                ||"
+      puts "  ||              Type 'open' to see full article in browser                ||"
+      puts "  ||                    or hit enter to see more options.                   ||"
       puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
       2.times {puts ""}
+      input = gets.strip
+      if input == "open"
+        system("open #{article.url}")
+      end
     end
   end #class
 
@@ -107,9 +113,13 @@ class Formatter
       puts "--------------------------------------------------------------------------------"
       puts "                        For full program information:"
       puts "--------------------------------------------------------------------------------"
-      puts "Visit #{program.url}"
+      puts "Type 'open' to visit program homepage or hit enter to see more options."
       2.times {puts "--------------------------------------------------------------------------------"}
       2.times {puts ""}
+      input = gets.strip
+      if input == "open"
+        system("open #{program.url}")
+      end
     end
 
   end #Program class
