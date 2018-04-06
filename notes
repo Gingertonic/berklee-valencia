@@ -1,1 +1,27 @@
-REFACTOR WITH CATEGORY CLASS & MORE INTELLIGENT USE OF ARTICLE & PROGRAM CLASSES
+
+changes to make in:
+category
+program
+scraper
+cli
+
+remake gem 
+
+
+cmd-shift-f: find anywhere in atom
+ctrl-cmd-g: select all occurrences of word
+shift-cmd-p: command search thing
+
+COMMAND LINE STUFF
+get last thing with x in it
+ctrl-r
+  x
+ctrl-r again to get to previous one
+
+HISTORY TO FIND X
+history | grep "x"
+
+-P option for fancy stuff
+
+cmd - K upcase
+down ??????

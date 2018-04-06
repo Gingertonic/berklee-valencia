@@ -2,21 +2,6 @@ class BerkleeValencia::SCRAPER
   @@bv_news = "https://valencia.berklee.edu/news/"
   @@bv_programs = "https://valencia.berklee.edu/academic-programs/"
 
-  def self.make_programs
-    course_types = Nokogiri::HTML(open(@@bv_programs, :allow_redirections => :all)).css("div.col-3-5")
-    course_types.each do |type|
-      type.css("ul a").each do |program|
-        attributes = {
-          title: program.text,
-          subtitle: program.css("span").text,
-          url: program.attribute("href").value,
-          type: type.css("h4").text
-        }
-      BerkleeValencia::PROGRAM.new_from_scraper(attributes)
-      end
-    end
-  end
-
   def self.make_articles
     articles = Nokogiri::HTML(open(@@bv_news, :allow_redirections => :all))
     articles.css("div#news_container div.content").each do |article|
@@ -42,6 +27,22 @@ class BerkleeValencia::SCRAPER
     extended_info
   end
 
+  def self.make_programs
+    course_types = Nokogiri::HTML(open(@@bv_programs, :allow_redirections => :all)).css("div.col-3-5")
+    course_types.each do |type|
+      type.css("ul a").each do |program|
+        attributes = {
+          title: program.text,
+          subtitle: program.css("span").text,
+          url: program.attribute("href").value,
+          type: type.css("h4").text
+        }
+      BerkleeValencia::PROGRAM.new_from_scraper(attributes)
+      end
+    end
+  end
+
+
   def self.get_program_extended_info(url)
     program = Nokogiri::HTML(open(url, :allow_redirections => :all))
     extended_info = {
@@ -55,17 +56,13 @@ class BerkleeValencia::SCRAPER
 
   def self.sort_content(article, extended_info)
     article.css("div#tab_intro p").each do |para|
-      if para.css("iframe").length == 0 && para.css("em").text.length < 30 && para.css("strong").text == "" && !para.text.match(/•/)
+      if para.css("iframe").length == 0 && para.css("strong").text == ""
         extended_info[:body] << para.text
       elsif para.css("strong").text != ""
         extended_info[:body] << " --- #{para.text} ---"
-      elsif para.css("em").text != ""
-        comment = "#{para.text}"
-        extended_info[:body] << " - - - - - - - - - - - - - - - - - Media - - - - - - - - - - - - - - - - - - -"
-        extended_info[:body] << comment
-        extended_info[:body] << " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
       elsif para.css("iframe").length > 0
-       extended_info[:related_links] << para.css("iframe").attribute("src").value
+        extended_info[:body] << para.text
+        extended_info[:related_links] << para.css("iframe").attribute("src").value
       end
     end
     extended_info

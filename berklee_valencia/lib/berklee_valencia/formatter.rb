@@ -4,6 +4,10 @@ class Formatter
 	  text.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
 	end
 
+  def self.urlwrap(text, width=80)
+	  text.gsub(/(.{1,#{width}})/, "\\1\n")
+	end
+
   class Formatter::FORMATARTICLE < Formatter
     def self.header(article)
       border = border_maker(article)
@@ -17,25 +21,15 @@ class Formatter
 
     def self.border_maker(article)
       border = ""
-      if article.title.length < (article.author.length + article.date.length)
-        borderlength = article.author.length + article.date.length + 5
-        borderlength.times {border << "-"}
-      elsif article.title.length > 80
-        80.times {border << "-"}
-      else
-        borderlength = article.title.length
-        borderlength.times {border << "-"}
-      end
+      bordertestlength = [article.title.length, (article.author.length + article.date.length + 5)].max
+      borderlength = [bordertestlength, 80].min
+      borderlength.times {border << "-"}
       border
     end
 
     def self.gap_maker(article, border)
       gap = ""
-      if border.length > article.title.length
-        5.times {gap << " "}
-      else
-        (article.title.length - article.author.length - article.date.length).times {gap << " "}
-      end
+      (border.length - article.author.length - article.date.length).times {gap << " "}
       gap
     end
 
@@ -44,19 +38,17 @@ class Formatter
         if paragraph.match(/-{3} /)
           puts " ______________________________________________________________________________"
           puts "  ||               Press enter to scroll to the next section                ||"
-          puts "  ||                   or type 'menu' to see all options                    ||"
+          puts "  ||                or type 'end' to skip to end of article.                ||"
           puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
           input = gets.strip
-          if input == "menu"
-            return "menu"
+          if input == "end"
+            return "end"
           end
-        elsif !paragraph.downcase.match(/click here/)
-          if paragraph.match(/below/)
-            puts "#{wrap(paragraph)}"
-            puts "        Vist #{article.related_links.shift}"
-          elsif paragraph ==  " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-              puts "        Vist #{article.related_links.shift}"
-              puts paragraph
+          puts "#{wrap(paragraph)}"
+          puts ""
+        elsif !paragraph.match(/click here/i) && !paragraph.match(/•/)
+          if paragraph.match(/below:/) || paragraph.match(/^Watch|^Listen/)
+            media_compiler(article, paragraph)
           else
             puts "#{wrap(paragraph)}"
             puts ""
@@ -65,12 +57,27 @@ class Formatter
       end #do
     end #print_body method
 
+    def self.media_compiler(article, paragraph)
+      if paragraph.match(/below:/)
+        puts " - - - - - - - - - - - - - - - - - Media - - - - - - - - - - - - - - - - - - -"
+        puts "#{wrap(paragraph)}"
+        puts "#{urlwrap("        Visit #{(article.related_links.shift)}")}"
+        puts "#{urlwrap("        Visit #{(article.related_links.shift)}")}"
+        puts " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+      elsif paragraph.match(/watch|listen/i) && paragraph.match(/:\s?\z/)
+        puts " - - - - - - - - - - - - - - - - - Media - - - - - - - - - - - - - - - - - - -"
+        puts "#{wrap(paragraph)}"
+        puts "#{urlwrap("        Visit #{(article.related_links.shift)}")}"
+        puts " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+      end
+    end
+
     def self.end(article)
       puts ""
       puts " ______________________________________________________________________________"
       puts "  ||                          END OF ARTICLE                                ||"
       puts "  ||              Type 'open' to see full article in browser                ||"
-      puts "  ||                    or hit enter to see more options.                   ||"
+      puts "  ||                    or hit enter to see all options                     ||"
       puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
       2.times {puts ""}
       input = gets.strip

@@ -5,12 +5,13 @@ class BerkleeValencia::PROGRAM < BerkleeValencia::ITEM
   @@other_programs = []
 
   def self.new_from_scraper(attribute_hash)
-    new_program = BerkleeValencia::PROGRAM.new(attribute_hash[:title], attribute_hash[:url])
-    new_program.type = attribute_hash[:type]
-    new_program.subtitle = attribute_hash[:subtitle]
-    new_program.i = @@all.length + 1
-    @@all << new_program
-    new_program.type == "Graduate Programs" ? @@graduate_programs << new_program : @@other_programs << new_program
+    BerkleeValencia::PROGRAM.new(attribute_hash[:title], attribute_hash[:url]).tap do |program|
+      program.type = attribute_hash[:type]
+      program.subtitle = attribute_hash[:subtitle]
+      program.i = @@all.length + 1
+      @@all << program
+      program.type == "Graduate Programs" ? @@graduate_programs << program : @@other_programs << program
+    end
   end
 
   def extended_info_from_scraper(attribute_hash)
