@@ -35,6 +35,7 @@ class BerkleeValencia::CLI
     input = gets.strip.downcase
     if input.to_i.between?(1,2)
       please_wait
+      # case statement chosen over if statement for easy future extension
       case input
       when "1"
         list_article_categories
@@ -47,6 +48,9 @@ class BerkleeValencia::CLI
   end
 
   def list_article_categories
+    # if statement used so scrape only happens when necessary
+    # (it is necessary when a) a user wishes to view the articles and
+    # b) the articles have not already been scraped)
     if BerkleeValencia::ARTICLE.all == []
       BerkleeValencia::SCRAPER.make_articles
     end

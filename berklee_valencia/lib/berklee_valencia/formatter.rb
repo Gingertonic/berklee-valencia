@@ -1,5 +1,4 @@
 class Formatter
-
   def self.wrap(text, width=80)
 	  text.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
 	end
@@ -64,7 +63,7 @@ class Formatter
         puts "#{urlwrap("        Visit #{(article.related_links.shift)}")}"
         puts "#{urlwrap("        Visit #{(article.related_links.shift)}")}"
         puts " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-      elsif paragraph.match(/watch|listen/i) && paragraph.match(/:\s?\z/)
+      elsif paragraph.match(/^Watch|^Listen/i)
         puts " - - - - - - - - - - - - - - - - - Media - - - - - - - - - - - - - - - - - - -"
         puts "#{wrap(paragraph)}"
         puts "#{urlwrap("        Visit #{(article.related_links.shift)}")}"
