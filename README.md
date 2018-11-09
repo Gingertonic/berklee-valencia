@@ -6,6 +6,10 @@ Filled with the musicians, business moguls and technologists of today and tomorr
 
 This is a CLI gem for users to read the latest Berklee Valencia news and find out about programs offered.
 
+See the video walkthrough of the app [here](https://www.youtube.com/watch?v=cxLc4GXXrzI)
+
+Read my blog post about this project [here](https://medium.com/@bethmschofield/look-mum-im-a-real-programmer-689a0b011942)
+
 ## Installation
 
 Add this line to your application's Gemfile:
